@@ -28,7 +28,7 @@ app.use(express.json());
 // Middleware para habilitar CORS
 app.use(
   cors({
-    origin: "https://gastos-app-client.vercel.app/",
+    origin: "https://gastos-app-client.vercel.app",
   })
 );
 

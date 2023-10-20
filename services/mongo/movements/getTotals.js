@@ -13,18 +13,17 @@ async function getTotals() {
     .reduce((total, movement) => total + Number(movement.amount), 0);
 
   const saldo = totalIncome - totalExpense;
-   // Obtén la fecha actual
-   const currentDate = new Date();
+  const currentDate = new Date();
 
-   // Comprueba si es el último día del mes
-   const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-   if (currentDate.getDate() === lastDayOfMonth) {
-     // Guarda los gastos acumulados en una nueva ruta en la base de datos
-     await saveMonthlyExpenses(totalExpense);
- 
-     // Reinicia el contador de gastos
-     await resetExpenses();
-   }
+  const lastDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  ).getDate();
+  if (currentDate.getDate() === lastDayOfMonth) {
+    await saveMonthlyExpenses(totalExpense);
+    await resetExpenses();
+  }
   return {
     totalIncome,
     totalExpense,

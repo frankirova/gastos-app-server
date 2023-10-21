@@ -26,9 +26,10 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 // Middleware para habilitar CORS
+const origins = ['http://localhost:5173',"https://gastos-app-client.vercel.app"]
 app.use(
   cors({
-    origin: "https://gastos-app-client.vercel.app",
+    origin: origins,
   })
 );
 

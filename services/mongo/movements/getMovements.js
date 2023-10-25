@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-async function getMovements() {
+async function getMovements(accountId) {
   try {
     const uri =
       "mongodb+srv://franki:TEVuNkEx7Qev9KDp@cluster0.sdqqh1u.mongodb.net/";
@@ -8,7 +8,9 @@ async function getMovements() {
     await client.connect();
 
     const db = client.db("MisGastos");
-    const movementsCollection = db.collection("movements");
+    const movementsCollection = db
+      .collection("movements")
+      .find({ account: accountId });
 
     const movements = await movementsCollection.find().toArray();
 

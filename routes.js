@@ -48,9 +48,10 @@ app.get("/myCategories", async (req, res) => {
   }
 });
 
-app.get("/movements", async (req, res) => {
+app.get("/movements/:accountId", async (req, res) => {
   try {
-    const movements = await getMovements();
+    const accountId = req.params.accountId
+    const movements = await getMovements(accountId);
     res.json(movements);
   } catch (error) {
     console.error("Error al obtener los moviemientos:", error);
@@ -131,7 +132,7 @@ app.post("/addMovement", async (req, res) => {
   try {
     const movement = req.body;
     await addMovement(movement);
-    res.send("listo pa");
+    res.send("Listo pa");
   } catch (error) {
     console.error("Error al agregar movimiento:", error);
     res.status(500).send("Error al agregar el movimiento");

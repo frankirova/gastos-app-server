@@ -4,17 +4,18 @@ async function getMovements(accountId) {
   try {
     const uri =
       "mongodb+srv://franki:TEVuNkEx7Qev9KDp@cluster0.sdqqh1u.mongodb.net/";
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    
     await client.connect();
 
     const db = client.db("MisGastos");
-    const movementsCollection = db
-      .collection("movements")
-      .find({ account: accountId });
+    const movementsCollection = db.collection("movements");
 
-    const movements = await movementsCollection.find().toArray();
+    // Query the collection for movements
+    const movements = await movementsCollection.find({ account: accountId }).toArray();
 
-    client.close();
+    // Close the connection when done
+    await client.close();
 
     return movements;
   } catch (error) {
@@ -24,3 +25,4 @@ async function getMovements(accountId) {
 }
 
 module.exports = getMovements;
+

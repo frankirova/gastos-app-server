@@ -77,7 +77,7 @@ app.get("/movement/:id", async (req, res) => {
 
 app.get("/totals/:id", async (req, res) => {
   try {
-    const accountId = req.params.accountId
+    const accountId = req.params.id
     const totals = await getTotals(accountId);
 
     if (totals) {

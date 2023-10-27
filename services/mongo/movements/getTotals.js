@@ -4,6 +4,8 @@ const saveMonthlyExpenses = require("./saveMothlyExpenses");
 
 async function getTotals(id) {
   const movements = await getMovements(id);
+  console.log(movements)
+  console.log(id)
 
   const totalIncome = movements
     .filter((movement) => movement.group === "income")

@@ -2,8 +2,9 @@ const getMovements = require("./getMovements");
 const resetExpenses = require("./resetExpenses");
 const saveMonthlyExpenses = require("./saveMothlyExpenses");
 
-async function getTotals() {
-  const movements = await getMovements();
+async function getTotals(id) {
+  const movements = await getMovements(id);
+
   const totalIncome = movements
     .filter((movement) => movement.group === "income")
     .reduce((total, movement) => total + Number(movement.amount), 0);

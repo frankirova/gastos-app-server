@@ -20,13 +20,17 @@ const addAccount = require("./services/mongo/accounts/addAccount");
 const getAccounts = require("./services/mongo/accounts/getAccounts");
 const getAccountById = require("./services/mongo/accounts/getAccountById");
 
+const getCryptoCurrency = require("./services/requests/coinMarketCap");
 const app = express();
 
 // midleware
 app.use(morgan("dev"));
 app.use(express.json());
 // Middleware para habilitar CORS
-const origins = ['http://localhost:5173',"https://gastos-app-client.vercel.app"]
+const origins = [
+  "http://localhost:5173",
+  "https://gastos-app-client.vercel.app",
+];
 app.use(
   cors({
     origin: origins,
@@ -50,7 +54,7 @@ app.get("/myCategories", async (req, res) => {
 
 app.get("/movements/:accountId", async (req, res) => {
   try {
-    const accountId = req.params.accountId
+    const accountId = req.params.accountId;
     const movements = await getMovements(accountId);
     res.json(movements);
   } catch (error) {
@@ -77,7 +81,7 @@ app.get("/movement/:id", async (req, res) => {
 
 app.get("/totals/:id", async (req, res) => {
   try {
-    const accountId = req.params.id
+    const accountId = req.params.id;
     const totals = await getTotals(accountId);
 
     if (totals) {
@@ -119,6 +123,15 @@ app.get("/account/:id", async (req, res) => {
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);
     res.status(500).send("Error al obtener la cuenta");
+  }
+});
+
+app.get("/getCryptos", async (req, res) => {
+  try {
+    const cryptos = await getCryptoCurrency();
+    res.json(cryptos);
+  } catch (e) {
+    console.error(e);
   }
 });
 

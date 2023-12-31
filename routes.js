@@ -28,208 +28,210 @@ app.use(morgan("dev"));
 app.use(express.json());
 // Middleware para habilitar CORS
 const origins = [
-  "http://localhost:5173",
-  "https://gastos-app-client.vercel.app",
+    "http://localhost:5173",
+    "https://gastos-app-client.vercel.app",
+    "https://gastos-app-server.onrender.com",
 ];
 app.use(
-  cors({
-    origin: origins,
-  })
+    cors({
+        origin: origins,
+    })
 );
 
 //routes
 app.get("/", (req, res) => {
-  res.send("¡Hola Mundo!");
+    res.send("¡Hola Mundo!");
 });
 
 app.get("/myCategories", async (req, res) => {
-  try {
-    const categories = await getCategories();
-    res.json(categories);
-  } catch (error) {
-    console.error("Error al obtener las categorías:", error);
-    res.status(500).send("Error al obtener las categorías");
-  }
+    try {
+        const categories = await getCategories();
+        res.json(categories);
+    } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+        res.status(500).send("Error al obtener las categorías");
+    }
 });
 
 app.get("/movements/:accountId", async (req, res) => {
-  try {
-    const accountId = req.params.accountId;
-    const movements = await getMovements(accountId);
-    res.json(movements);
-  } catch (error) {
-    console.error("Error al obtener los moviemientos:", error);
-    res.status(500).send("Error al obtener los moviemientos");
-  }
+    try {
+        const accountId = req.params.accountId;
+        const movements = await getMovements(accountId);
+        res.json(movements);
+    } catch (error) {
+        console.error("Error al obtener los moviemientos:", error);
+        res.status(500).send("Error al obtener los moviemientos");
+    }
 });
 
 app.get("/movement/:id", async (req, res) => {
-  try {
-    const movementId = req.params.id;
-    const movement = await getMovementById(movementId);
+    try {
+        const movementId = req.params.id;
+        const movement = await getMovementById(movementId);
 
-    if (movement) {
-      res.json(movement);
-    } else {
-      res.status(404).send("Movimiento no encontrado");
+        if (movement) {
+            res.json(movement);
+        } else {
+            res.status(404).send("Movimiento no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener el movimiento:", error);
+        res.status(500).send("Error al obtener el movimiento");
     }
-  } catch (error) {
-    console.error("Error al obtener el movimiento:", error);
-    res.status(500).send("Error al obtener el movimiento");
-  }
 });
 
 app.get("/totals/:id", async (req, res) => {
-  try {
-    const accountId = req.params.id;
-    const totals = await getTotals(accountId);
+    try {
+        const accountId = req.params.id;
+        const totals = await getTotals(accountId);
 
-    if (totals) {
-      res.json(totals);
-    } else {
-      res.status(404).send("total no encontrado");
+        if (totals) {
+            res.json(totals);
+        } else {
+            res.status(404).send("total no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener el total:", error);
+        res.status(500).send("Error al obtener el total");
     }
-  } catch (error) {
-    console.error("Error al obtener el total:", error);
-    res.status(500).send("Error al obtener el total");
-  }
 });
 
 app.get("/accounts", async (req, res) => {
-  try {
-    const accounts = await getAccounts();
+    try {
+        const accounts = await getAccounts();
 
-    if (accounts) {
-      res.json(accounts);
-    } else {
-      res.status(404).send("cuenta no encontrado");
+        if (accounts) {
+            res.json(accounts);
+        } else {
+            res.status(404).send("cuenta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la cuenta:", error);
+        res.status(500).send("Error al obtener la cuenta");
     }
-  } catch (error) {
-    console.error("Error al obtener la cuenta:", error);
-    res.status(500).send("Error al obtener la cuenta");
-  }
 });
 
 app.get("/account/:id", async (req, res) => {
-  try {
-    const accountId = req.params.id;
-    const account = await getAccountById(accountId);
+    try {
+        const accountId = req.params.id;
+        const account = await getAccountById(accountId);
 
-    if (account) {
-      res.json(account);
-    } else {
-      res.status(404).send("Cuenta no encontrado");
+        if (account) {
+            res.json(account);
+        } else {
+            res.status(404).send("Cuenta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la cuenta:", error);
+        res.status(500).send("Error al obtener la cuenta");
     }
-  } catch (error) {
-    console.error("Error al obtener la cuenta:", error);
-    res.status(500).send("Error al obtener la cuenta");
-  }
 });
 
 app.get("/getCryptos", async (req, res) => {
-  try {
-    const cryptos = await getCryptoCurrency();
-    res.json(cryptos);
-  } catch (e) {
-    console.error(e);
-  }
+    try {
+        const cryptos = await getCryptoCurrency();
+        res.json(cryptos);
+    } catch (e) {
+        console.error(e);
+    }
 });
 
 //post
 app.post("/addCategories", (req, res) => {
-  const category = req.body;
-  addCategories(category);
-  res.send("Listo pa");
+    const category = req.body;
+    addCategories(category);
+    res.send("Listo pa");
 });
 
 app.post("/addMovement", async (req, res) => {
-  try {
-    const movement = req.body;
-    await addMovement(movement);
-    res.send("Listo pa");
-  } catch (error) {
-    console.error("Error al agregar movimiento:", error);
-    res.status(500).send("Error al agregar el movimiento");
-  }
+    try {
+        const movement = req.body;
+        await addMovement(movement);
+        console.log(movement);
+        res.send("Listo pa");
+    } catch (error) {
+        console.error("Error al agregar movimiento:", error);
+        res.status(500).send("Error al agregar el movimiento");
+    }
 });
 
 app.post("/addAccount", async (req, res) => {
-  try {
-    const account = req.body;
-    await addAccount(account);
-    res.send("Listo pa");
-  } catch (error) {
-    console.error("Error al agregar la cuenta:", error);
-    res.status(500).send("Error al agregar la cuenta");
-  }
+    try {
+        const account = req.body;
+        await addAccount(account);
+        res.send("Listo pa");
+    } catch (error) {
+        console.error("Error al agregar la cuenta:", error);
+        res.status(500).send("Error al agregar la cuenta");
+    }
 });
 
 //delete
 app.delete("/category/:id", async (req, res) => {
-  try {
-    const categoryId = req.params.id;
-    await deleteCategory(categoryId);
-    res.send("Categoria eliminado correctamente");
-  } catch (error) {
-    console.error("Error al eliminar el categoria:", error);
-    res.status(500).send("Error al eliminar el categoria");
-  }
+    try {
+        const categoryId = req.params.id;
+        await deleteCategory(categoryId);
+        res.send("Categoria eliminado correctamente");
+    } catch (error) {
+        console.error("Error al eliminar el categoria:", error);
+        res.status(500).send("Error al eliminar el categoria");
+    }
 });
 
 app.delete("/movement/:id", async (req, res) => {
-  try {
-    const movementId = req.params.id;
-    await deleteMovement(movementId);
-    res.send("Movimiento eliminado correctamente");
-  } catch (error) {
-    console.error("Error al eliminar el movimiento:", error);
-    res.status(500).send("Error al eliminar el movimiento");
-  }
+    try {
+        const movementId = req.params.id;
+        await deleteMovement(movementId);
+        res.send("Movimiento eliminado correctamente");
+    } catch (error) {
+        console.error("Error al eliminar el movimiento:", error);
+        res.status(500).send("Error al eliminar el movimiento");
+    }
 });
 
 app.delete("/account/:id", async (req, res) => {
-  try {
-    const accountId = req.params.id;
-    await deleteAccount(accountId);
-    res.send("Cuenta eliminada correctamente");
-  } catch (error) {
-    console.error("Error al eliminar la cuenta:", error);
-    res.status(500).send("Error al eliminar la cuenta");
-  }
+    try {
+        const accountId = req.params.id;
+        await deleteAccount(accountId);
+        res.send("Cuenta eliminada correctamente");
+    } catch (error) {
+        console.error("Error al eliminar la cuenta:", error);
+        res.status(500).send("Error al eliminar la cuenta");
+    }
 });
 
 //put
 app.put("/movement/:id", async (req, res) => {
-  try {
-    const movementId = req.params.id;
-    const updatedMovement = req.body; // Los nuevos valores del gasto
+    try {
+        const movementId = req.params.id;
+        const updatedMovement = req.body; // Los nuevos valores del gasto
 
-    await editMovement(movementId, updatedMovement);
+        await editMovement(movementId, updatedMovement);
 
-    res.send("Movimiento actualizado correctamente");
-  } catch (error) {
-    console.error("Error al editar el movimiento:", error);
-    res.status(500).send("Error al editar el movimiento");
-  }
+        res.send("Movimiento actualizado correctamente");
+    } catch (error) {
+        console.error("Error al editar el movimiento:", error);
+        res.status(500).send("Error al editar el movimiento");
+    }
 });
 
 app.put("/account/:id", async (req, res) => {
-  try {
-    const accountId = req.params.id;
-    const updatedAccount = req.body; // Los nuevos valores del gasto
+    try {
+        const accountId = req.params.id;
+        const updatedAccount = req.body; // Los nuevos valores del gasto
 
-    await editAccount(accountId, updatedAccount);
+        await editAccount(accountId, updatedAccount);
 
-    res.send("Cuenta actualizada correctamente");
-  } catch (error) {
-    console.error("Error al editar la cuenta:", error);
-    res.status(500).send("Error al editar la cuenta");
-  }
+        res.send("Cuenta actualizada correctamente");
+    } catch (error) {
+        console.error("Error al editar la cuenta:", error);
+        res.status(500).send("Error al editar la cuenta");
+    }
 });
 
 //listen
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+    console.log("Server is running on port 3000");
 });
 
 module.exports = app;

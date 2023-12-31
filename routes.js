@@ -184,7 +184,7 @@ app.post("/addMovement", async (req, res) => {
         const movement = req.body;
         await addMovement(movement);
         console.log(movement);
-        res.send("Listo pa");
+        res.send({ message: "Listo pa" });
     } catch (error) {
         console.error("Error al agregar movimiento:", error);
         res.status(500).send("Error al agregar el movimiento");

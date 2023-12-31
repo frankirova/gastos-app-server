@@ -20,6 +20,12 @@ const addAccount = require("./services/mongo/accounts/addAccount");
 const getAccounts = require("./services/mongo/accounts/getAccounts");
 const getAccountById = require("./services/mongo/accounts/getAccountById");
 
+const deleteCard = require("./services/mongo/cards/deleteCard");
+const updateCard = require("./services/mongo/cards/updateCard");
+const addCard = require("./services/mongo/cards/addCard");
+const getCards = require("./services/mongo/cards/getCards");
+const getCardById = require("./services/mongo/cards/getCardById");
+
 const getCryptoCurrency = require("./services/requests/coinMarketCap");
 const app = express();
 
@@ -124,6 +130,36 @@ app.get("/account/:id", async (req, res) => {
     } catch (error) {
         console.error("Error al obtener la cuenta:", error);
         res.status(500).send("Error al obtener la cuenta");
+    }
+});
+
+app.get("/cards", async (req, res) => {
+    try {
+        const cards = await getCards();
+
+        if (cards) {
+            res.json(cards);
+        } else {
+            res.status(404).send("tarjeta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la tarjeta:", error);
+        res.status(500).send("Error al obtener la tarjeta");
+    }
+});
+
+app.get("/cards/:id", async (req, res) => {
+    try {
+        const cardId = req.params.id;
+        const card = await getCardById(cardId);
+        if (card) {
+            res.json(card);
+        } else {
+            res.status(404).send("tarjeta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la tarjeta:", error);
+        res.status(500).send("Error al obtener la tarjeta");
     }
 });
 

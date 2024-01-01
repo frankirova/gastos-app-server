@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-async function getAccounts() {
+async function getCards() {
     try {
         const uri =
             "mongodb+srv://franki:TEVuNkEx7Qev9KDp@cluster0.sdqqh1u.mongodb.net/";
@@ -21,4 +21,4 @@ async function getAccounts() {
     }
 }
 
-module.exports = getAccounts;
+module.exports = getCards;

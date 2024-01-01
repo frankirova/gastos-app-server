@@ -127,6 +127,36 @@ app.get("/account/:id", async (req, res) => {
     }
 });
 
+app.get("/cards", async (req, res) => {
+    try {
+        const cards = await getCards();
+
+        if (cards) {
+            res.json(cards);
+        } else {
+            res.status(404).send("tarjeta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la tarjeta:", error);
+        res.status(500).send("Error al obtener la tarjeta");
+    }
+});
+
+app.get("/cards/:id", async (req, res) => {
+    try {
+        const cardId = req.params.id;
+        const card = await getCardById(cardId);
+        if (card) {
+            res.json(card);
+        } else {
+            res.status(404).send("tarjeta no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener la tarjeta:", error);
+        res.status(500).send("Error al obtener la tarjeta");
+    }
+});
+
 app.get("/getCryptos", async (req, res) => {
     try {
         const cryptos = await getCryptoCurrency();

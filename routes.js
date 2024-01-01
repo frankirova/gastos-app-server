@@ -20,6 +20,12 @@ const addAccount = require("./services/mongo/accounts/addAccount");
 const getAccounts = require("./services/mongo/accounts/getAccounts");
 const getAccountById = require("./services/mongo/accounts/getAccountById");
 
+const deleteCard = require("./services/mongo/cards/deleteCard");
+const updateCard = require("./services/mongo/cards/updateCard");
+const addCard = require("./services/mongo/cards/addCard");
+const getCards = require("./services/mongo/cards/getCards");
+const getCardById = require("./services/mongo/cards/getCardById");
+
 const getCryptoCurrency = require("./services/requests/coinMarketCap");
 const app = express();
 
